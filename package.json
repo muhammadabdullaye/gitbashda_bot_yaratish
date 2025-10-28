@@ -1,0 +1,23 @@
+{
+  "name": "gitbashda_bot_yaratish",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhammadabdullaye/gitbashda_bot_yaratish.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muhammadabdullaye/gitbashda_bot_yaratish/issues"
+  },
+  "homepage": "https://github.com/muhammadabdullaye/gitbashda_bot_yaratish#readme",
+  "dependencies": {
+    "telegram-bot-api": "^2.0.1"
+  }
+}
