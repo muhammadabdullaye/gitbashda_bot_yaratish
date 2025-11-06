@@ -25,9 +25,8 @@ bot.on("message", async function (msg) {
 
     setTimeout(function () {
       bot.deleteMessage(chatId, xabar.message_id);
-      // bot.sendMessage(chatId, "1 sekund kechikdi");
-      bot.sendPhoto(chatId, "./images.jfif", {
-        caption: ` The Urus has a V8 twin-turbocharged engine with a maximum power output of 650 hp, and offers the best power-to-weight ratio in the SUV segment. `,
+      bot.sendPhoto(chatId, "./imij.jpg", {
+        caption: `qwertyui qwertyui qwertyu qwertyui. `,
       });
     }, 1000);
   } else if (text == "Menu 🍔") {
