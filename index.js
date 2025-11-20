@@ -25,12 +25,30 @@ bot.on("message", async function (msg) {
 
     setTimeout(function () {
       bot.deleteMessage(chatId, xabar.message_id);
-      bot.sendPhoto(chatId, "./imij.jpg", {
-        caption: `qwertyui qwertyui qwertyu qwertyui. `,
+      bot.sendPhoto(chatId, "img/imij.jpg", {
+        caption: `buni ismi alisher . `,
       });
     }, 1000);
   } else if (text == "Menu 🍔") {
     bot.sendMessage(chatId, "Menyuga xush kelibsiz");
+    const xabar = await bot.sendMessage(chatId, "Iltimos, kuting...");
+
+    setTimeout(function () {
+      bot.deleteMessage(chatId, xabar.message_id);
+      bot.sendPhoto(chatId, "img/weyu.jpg", {
+        caption: `buni ismi bobi . `,
+      });
+    }, 1000);
+  }else if (text == "Sozlamalar ⚙️") {
+    bot.sendMessage(chatId, "Menyuga xush kelibsiz");
+    const xabar = await bot.sendMessage(chatId, "Iltimos, kuting...");
+
+    setTimeout(function () {
+      bot.deleteMessage(chatId, xabar.message_id);
+      bot.sendVideo(chatId, "img/WIN_20251111_17_51_08_Pro.jpg", {
+        caption: `bayram shipyon . `,
+      });
+    }, 1000);
   }
 
   console.log("Start");
