@@ -1,58 +1,67 @@
 import TelegramBot from "node-telegram-bot-api";
+import { config } from "dotenv";
+import { onStart } from "./src/onStart.js";
+import { onCourses } from "./src/onCourses.js";
+import { onRegister } from "./src/onRegister.js";
+import mongoose from "mongoose";
+import onUsers from "./src/onUsers.js";
+config();
 
-const TOKEN = "7750435953:AAFfzgcSIuRz5bzXixjrjZex4C5-7YOQoaI";
+const TOKEN = process.env.BOT_TOKEN;
 
 const bot = new TelegramBot(TOKEN, { polling: true });
 
-bot.on("message", async function (msg) {
-  console.log(msg);
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log(`Db is connected successfully...`);
+  })
+  .then(() => {
+    console.log(`Congratulations!`);
+  })
+  .catch(() => {
+    console.log(`Error: db is not connected..!!`);
+  });
+
+bot.on("message", (msg) => {
+  // console.log(msg);
   const chatId = msg.chat.id;
   const text = msg.text;
   const firstName = msg.chat.first_name;
 
-  if (text == "/start") {
-    bot.sendMessage(chatId, `Xush kelibsiz, ${firstName} 👋`, {
-      reply_markup: {
-        keyboard: [
-          [{ text: "Boshlash 🔥" }],
-          [{ text: "Menu 🍔" }, { text: "Sozlamalar ⚙️" }],
-        ],
-        resize_keyboard: true,
-      },
-    });
-  } else if (text == "Boshlash 🔥") {
-    const xabar = await bot.sendMessage(chatId, "Iltimos, kuting...");
+  //   bot.sendMessage(chatId, text);
 
-    setTimeout(function () {
-      bot.deleteMessage(chatId, xabar.message_id);
-      bot.sendPhoto(chatId, "img/imij.jpg", {
-        caption: `buni ismi alisher . `,
-      });
-    }, 1000);
-  } else if (text == "Menu 🍔") {
-    bot.sendMessage(chatId, "Menyuga xush kelibsiz");
-    const xabar = await bot.sendMessage(chatId, "Iltimos, kuting...");
+  if (text == "/start" || text == "Asosiy menyuga qaytish") {
+    onStart(chatId, firstName);
+  } else if (text == "📚 Kurslar") {
+    onCourses(chatId);
+  } else if (text == "ℹ️ Markaz haqida") {
+    bot.sendMessage(chatId, "📍 Bizning o‘quv markaz joylashuvi:");
+    bot.sendLocation(chatId, 41.3781989, 60.3694056);
+  } else if (text == "✍️ Ro‘yxatdan o‘tish") {
+    onRegister(chatId);
+  } else if (text == "/users") {
+    onUsers(chatId);
+  } else {
+    bot.sendMessage(
+      chatId,
+      `
+    ⚠️ Kechirasiz, men sizning xabaringizni tushunmadim.
 
-    setTimeout(function () {
-      bot.deleteMessage(chatId, xabar.message_id);
-      bot.sendPhoto(chatId, "img/weyu.jpg", {
-        caption: `buni ismi bobi . `,
-      });
-    }, 1000);
-  }else if (text == "Sozlamalar ⚙️") {
-    bot.sendMessage(chatId, "Menyuga xush kelibsiz");
-    const xabar = await bot.sendMessage(chatId, "Iltimos, kuting...");
+Iltimos, quyidagi tugmani bosing 👇
+/start
 
-    setTimeout(function () {
-      bot.deleteMessage(chatId, xabar.message_id);
-      bot.sendVideo(chatId, "img/WIN_20251111_17_51_08_Pro.jpg", {
-        caption: `bayram shipyon . `,
-      });
-    }, 1000);
+    `,
+      {
+        reply_markup: {
+          keyboard: [[{ text: `Asosiy menyuga qaytish` }]],
+          resize_keyboard: true,
+        },
+      }
+    );
   }
-
-  console.log("Start");
-  console.log("Xabar keldi");
 });
 
-console.log("Botimiz ishga tushdi");
+console.log("Bot ishga tushdi...");
+
+export { bot };
